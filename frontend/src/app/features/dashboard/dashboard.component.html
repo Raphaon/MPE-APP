@@ -1,0 +1,30 @@
+<section class="dashboard">
+  <article class="summary-card">
+    <h2>Tableau de bord national</h2>
+    <p>
+      Visualisez les indicateurs clés de la Mission du Plein Évangile : nombre total de chrétiens et
+      répartition par genre pour l’ensemble du territoire. Passez au niveau Région, District ou Assemblée
+      grâce au panneau de filtrage.
+    </p>
+  </article>
+
+  <app-statistics-overview></app-statistics-overview>
+
+  <section class="quick-stats" *ngIf="state$ | async as state">
+    <article class="metric-card">
+      <h3>Membres enregistrés</h3>
+      <p class="metric-value">{{ state.totalMembers | number }}</p>
+    </article>
+    <article class="metric-card">
+      <h3>Répartition par genre</h3>
+      <ul>
+        <li>Hommes : {{ state.gender.male | number }}</li>
+        <li>Femmes : {{ state.gender.female | number }}</li>
+      </ul>
+    </article>
+    <article class="metric-card">
+      <h3>Dernière mise à jour</h3>
+      <p>{{ state.lastUpdated | date: 'short' }}</p>
+    </article>
+  </section>
+</section>

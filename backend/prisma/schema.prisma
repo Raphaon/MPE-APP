@@ -1,0 +1,167 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Region {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  headquarters String
+  executiveId String?
+  districts   District[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model District {
+  id           String     @id @default(cuid())
+  name         String
+  headquarters String
+  executiveId  String?
+  regionId     String
+  region       Region     @relation(fields: [regionId], references: [id])
+  assemblies   Assembly[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([name, regionId])
+}
+
+model Assembly {
+  id           String     @id @default(cuid())
+  name         String
+  address      String
+  latitude     Float?
+  longitude    Float?
+  pastorId     String?
+  districtId   String
+  district     District   @relation(fields: [districtId], references: [id])
+  members      Member[]
+  events       Event[]
+  ministries   Ministry[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([name, districtId])
+}
+
+model Member {
+  id            String        @id @default(cuid())
+  fullName      String
+  birthDate     DateTime?
+  gender        Gender?
+  status        MemberStatus  @default(ACTIVE)
+  contact       String?
+  ministries    MemberMinistry[]
+  assemblyId    String
+  assembly      Assembly      @relation(fields: [assemblyId], references: [id])
+  userAccount   User?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum MemberStatus {
+  ACTIVE
+  TRANSFERRED
+  INACTIVE
+  DECEASED
+}
+
+model Ministry {
+  id          String            @id @default(cuid())
+  name        String
+  description String?
+  assemblyId  String
+  assembly    Assembly          @relation(fields: [assemblyId], references: [id])
+  members     MemberMinistry[]
+  leaderId    String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@unique([name, assemblyId])
+}
+
+model MemberMinistry {
+  memberId   String
+  ministryId String
+  role       String?
+  member     Member   @relation(fields: [memberId], references: [id])
+  ministry   Ministry @relation(fields: [ministryId], references: [id])
+
+  @@id([memberId, ministryId])
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  users       User[]
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  passwordHash String
+  roleId       String
+  role         Role        @relation(fields: [roleId], references: [id])
+  memberId     String?
+  member       Member?     @relation(fields: [memberId], references: [id])
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  messagesSent Message[]   @relation("SentMessages")
+  messagesRecv Message[]   @relation("ReceivedMessages")
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  senderId    String
+  receiverId  String
+  content     String
+  createdAt   DateTime @default(now())
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  assemblyId  String?
+  districtId  String?
+  regionId    String?
+  assembly    Assembly? @relation(fields: [assemblyId], references: [id])
+  district    District? @relation(fields: [districtId], references: [id])
+  region      Region?   @relation(fields: [regionId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Circular {
+  id          String   @id @default(cuid())
+  subject     String
+  message     String
+  targetScope CircularScope
+  targetId    String?
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+enum CircularScope {
+  NATIONAL
+  REGION
+  DISTRICT
+  ASSEMBLY
+}
