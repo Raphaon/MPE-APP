@@ -1,0 +1,20 @@
+<section class="statistics" *ngIf="state$ | async as state">
+  <header>
+    <h3>Statistiques globales</h3>
+    <span *ngIf="state.lastUpdated">Mise à jour le {{ state.lastUpdated | date: 'short' }}</span>
+  </header>
+  <div class="statistics-grid">
+    <div class="statistics-card">
+      <h4>Total</h4>
+      <p>{{ state.totalMembers | number }}</p>
+    </div>
+    <div class="statistics-card">
+      <h4>Hommes</h4>
+      <p>{{ state.gender.male | number }}</p>
+    </div>
+    <div class="statistics-card">
+      <h4>Femmes</h4>
+      <p>{{ state.gender.female | number }}</p>
+    </div>
+  </div>
+</section>

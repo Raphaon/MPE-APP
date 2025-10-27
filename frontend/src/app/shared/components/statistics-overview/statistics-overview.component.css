@@ -1,0 +1,37 @@
+.statistics {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(20, 53, 92, 0.12);
+}
+
+.statistics header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.statistics-card {
+  background: #f5f7fb;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.statistics-card h4 {
+  margin-bottom: 0.5rem;
+  color: #14355c;
+}
+
+.statistics-card p {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+}

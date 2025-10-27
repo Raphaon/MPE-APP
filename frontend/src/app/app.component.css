@@ -1,0 +1,36 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f5f7fb;
+  color: #1a1a1a;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+header {
+  background: #14355c;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.summary-card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 12px 24px rgba(20, 53, 92, 0.16);
+  border-left: 6px solid #f2a516;
+}
+
+.summary-card h2 {
+  margin-top: 0;
+  color: #14355c;
+}
