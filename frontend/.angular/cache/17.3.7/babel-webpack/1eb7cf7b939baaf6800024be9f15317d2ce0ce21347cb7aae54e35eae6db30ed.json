@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { createActionGroup, props } from '@ngrx/store';\nexport const StatisticsActions = createActionGroup({\n  source: 'Statistics',\n  events: {\n    load: props(),\n    loadSuccess: props(),\n    loadFailure: props()\n  }\n});","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

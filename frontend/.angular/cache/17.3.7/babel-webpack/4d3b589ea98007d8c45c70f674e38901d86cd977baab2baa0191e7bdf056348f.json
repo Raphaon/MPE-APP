@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const initialStatisticsState = {\n  totalMembers: 0,\n  gender: {\n    male: 0,\n    female: 0\n  },\n  lastUpdated: null,\n  loading: false\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
